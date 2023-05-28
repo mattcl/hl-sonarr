@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+spec:
+  revisionHistoryLimit: 3
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    spec:
+      containers:
+        - name: app
+          image: "linuxserver/sonarr:3.0.10"
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: "app-config"
+          ports:
+            - name: http
+              containerPort: 8989
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: /config
+            - name: videos
+              mountPath: /videos
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: data-pvc
+        - name: videos
+          hostPath:
+            path: /media/videos
+            type: Directory
