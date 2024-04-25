@@ -36,11 +36,7 @@ spec:
           hostPath:
             path: /mnt/downloads/import
             type: Directory
-        - name: videos
+        - name: shows
           hostPath:
             path: /mnt/media/Shows
-            type: Directory
-        - name: downloads
-          hostPath:
-            path: /mnt/media
             type: Directory
